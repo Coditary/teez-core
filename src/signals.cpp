@@ -21,7 +21,7 @@ void signal_handler(int) {
 } // namespace
 
 void install_signal_handlers() {
-    struct sigaction action{};
+    struct sigaction action = {};
     action.sa_handler = signal_handler;
     sigemptyset(&action.sa_mask);
     action.sa_flags = 0;

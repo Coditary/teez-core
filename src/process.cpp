@@ -234,7 +234,7 @@ ExecResult run_command_interactive_pty(const CommandSpec& spec) {
 
         const int poll_timeout_ms = compute_poll_timeout_ms(spec.timeout_ms, started_at);
 
-        struct pollfd fd_entry{};
+        struct pollfd fd_entry = {};
         fd_entry.fd = master_fd;
         fd_entry.events = POLLIN;
         const int poll_result = poll(&fd_entry, 1, poll_timeout_ms);
@@ -850,7 +850,7 @@ bool probe_tcp_open(const std::string& host, int port, int timeout_ms) {
         return false;
     }
 
-    addrinfo hints{};
+    addrinfo hints = {};
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
 
@@ -885,7 +885,7 @@ bool probe_tcp_open(const std::string& host, int port, int timeout_ms) {
             continue;
         }
 
-        pollfd poll_fd{};
+        pollfd poll_fd = {};
         poll_fd.fd = socket_fd;
         poll_fd.events = POLLOUT;
 
