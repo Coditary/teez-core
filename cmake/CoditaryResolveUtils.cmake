@@ -15,6 +15,7 @@ function(coditary_resolve_utils)
 
     if(NOT CODITARY_UTILS_DIR)
         set(_utils_candidates
+            "${CMAKE_CURRENT_SOURCE_DIR}/Shared-Cpp/coditary_utils"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../../Coditary/shared/Shared-Cpp/coditary_utils"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../shared/Shared-Cpp/coditary_utils"
             "${CMAKE_CURRENT_SOURCE_DIR}/../Shared-Cpp/coditary_utils"

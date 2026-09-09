@@ -5,6 +5,7 @@ function(coditary_resolve_data)
 
     if(NOT CODITARY_DATA_DIR)
         set(_data_candidates
+            "${CMAKE_CURRENT_SOURCE_DIR}/Shared-Cpp/coditary_data"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../../Coditary/shared/Shared-Cpp/coditary_data"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../shared/Shared-Cpp/coditary_data"
             "${CMAKE_CURRENT_SOURCE_DIR}/../Shared-Cpp/coditary_data"

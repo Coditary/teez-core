@@ -5,6 +5,7 @@ function(coditary_resolve_lua)
 
     if(NOT CODITARY_LUA_DIR)
         set(_lua_candidates
+            "${CMAKE_CURRENT_SOURCE_DIR}/Shared-Cpp/coditary_lua"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../../Coditary/shared/Shared-Cpp/coditary_lua"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../shared/Shared-Cpp/coditary_lua"
             "${CMAKE_CURRENT_SOURCE_DIR}/../Shared-Cpp/coditary_lua"

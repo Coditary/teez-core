@@ -5,6 +5,7 @@ function(coditary_resolve_fs)
 
     if(NOT CODITARY_FS_DIR)
         set(_fs_candidates
+            "${CMAKE_CURRENT_SOURCE_DIR}/Shared-Cpp/coditary_fs"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../../Coditary/shared/Shared-Cpp/coditary_fs"
             "${CMAKE_CURRENT_SOURCE_DIR}/../../shared/Shared-Cpp/coditary_fs"
             "${CMAKE_CURRENT_SOURCE_DIR}/../Shared-Cpp/coditary_fs"
