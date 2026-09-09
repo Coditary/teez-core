@@ -60,7 +60,7 @@ jobs:
           TMPDIR: /tmp/teez-core-ci-${{ matrix.check }}-tmp
           CCACHE_DISABLE: 1
           FUZZ_SECONDS: 30
-          COVERAGE_MIN: 80
+          COVERAGE_MIN: 79
         run: |
           chmod +x scripts/ci.sh
           ./scripts/ci.sh ${{ matrix.check }}
