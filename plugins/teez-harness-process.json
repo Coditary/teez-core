@@ -1,0 +1,6 @@
+{
+  "kind": "harness",
+  "name": "process",
+  "plugin": "teez-harness-process.lua",
+  "priority": 10
+}

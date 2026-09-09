@@ -1,0 +1,42 @@
+test.describe("Smoke", function()
+    test.it("executes local shell script", function(t)
+        local output = sys.exec("bash", { "-c", "echo teez-worker-ok" })
+        t.assert_contains(output, "teez-worker-ok")
+    end)
+
+    test.it("captures exit code and stderr separately", function(t)
+        local result = sys.run("bash", { "-c", "echo ok; echo warn >&2" })
+        t.assert_exit_success(result)
+        t.assert_stdout_contains(result, "ok")
+        t.assert_stderr_contains(result, "warn")
+    end)
+
+    test.it("checks string helpers", function(t)
+        t.assert_starts_with("hello world", "hello")
+        t.assert_ends_with("hello world", "world")
+        t.assert_contains("teez-demo", "demo")
+    end)
+
+    test.skip("skipped example (not run)", function(t)
+        t.assert_eq(1, 2)
+    end)
+
+    test.todo("future: snapshot comparison demo")
+end)
+
+test.describe("Shell utilities", function()
+    test.it("reads environment via bash", function(t)
+        local result = sys.run("bash", { "-c", "echo $USER" })
+        t.assert_exit_success(result)
+        t.assert_not_empty(result.stdout)
+    end)
+
+    test.it("fails a subprocess with non-zero exit", function(t)
+        local result = sys.run("bash", { "-c", "exit 7" })
+        t.assert_exit_code(result, 7)
+    end)
+
+    test.fails("expected assertion failure", function(t)
+        t.assert_eq(1, 2)
+    end)
+end)

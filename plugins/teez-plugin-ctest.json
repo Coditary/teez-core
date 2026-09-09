@@ -1,0 +1,10 @@
+{
+  "name": "ctest",
+  "plugin": "teez-plugin-ctest.lua",
+  "anchors": [
+    "CTestTestfile.cmake",
+    "CMakeCache.txt",
+    "CMakeLists.txt"
+  ],
+  "priority": 90
+}

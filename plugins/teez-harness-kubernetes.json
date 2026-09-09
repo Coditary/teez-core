@@ -1,0 +1,8 @@
+{
+  "kind": "harness",
+  "name": "kubernetes",
+  "plugin": "teez-harness-kubernetes.lua",
+  "anchors": ["kustomization.yaml", "kustomization.yml"],
+  "requires": ["kubectl"],
+  "priority": 30
+}

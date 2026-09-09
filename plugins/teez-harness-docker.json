@@ -1,0 +1,8 @@
+{
+  "kind": "harness",
+  "name": "docker",
+  "plugin": "teez-harness-docker.lua",
+  "anchors": ["docker-compose.yml", "compose.yaml", "compose.yml"],
+  "requires": ["docker"],
+  "priority": 20
+}

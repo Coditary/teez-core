@@ -1,0 +1,13 @@
+{
+  "name": "teez-worker",
+  "plugin": "teez-plugin-worker.lua",
+  "glob_anchors": ["*.teez.lua"],
+  "include": ["**/*.teez.lua"],
+  "exclude": [
+    "**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}",
+    "**/*.py",
+    "**/test_*.py",
+    "**/*_test.py"
+  ],
+  "priority": 150
+}

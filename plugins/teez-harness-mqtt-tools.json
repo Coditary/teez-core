@@ -1,0 +1,7 @@
+{
+  "kind": "harness",
+  "name": "mqtt-tools",
+  "plugin": "teez-harness-mqtt-tools.lua",
+  "requires": ["mqtt-benchmark", "mosquitto_sub"],
+  "priority": 40
+}

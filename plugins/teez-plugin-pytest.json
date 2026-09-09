@@ -1,0 +1,17 @@
+{
+  "name": "pytest",
+  "plugin": "teez-plugin-pytest.lua",
+  "anchors": [
+    "pytest.ini",
+    "conftest.py",
+    "setup.cfg",
+    "tox.ini",
+    "pyproject.toml"
+  ],
+  "include": ["**/test_*.py", "**/*_test.py"],
+  "exclude": [
+    "**/*.teez.lua",
+    "**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"
+  ],
+  "priority": 100
+}

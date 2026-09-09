@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: teez-core
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            clang \
+            clang-format \
+            clang-tidy \
+            cmake \
+            cppcheck \
+            gcovr \
+            liblua5.4-dev \
+            luac \
+            ninja-build \
+            pkg-config \
+            zlib1g-dev
+
+      - name: Run CI
+        working-directory: teez-core
+        env:
+          BUILD_DIR: /tmp/teez-core-ci-build
+          FUZZ_BUILD_DIR: /tmp/teez-core-ci-fuzz-build
+          TMPDIR: /tmp/teez-core-ci-tmp
+          CCACHE_DISABLE: 1
+          FUZZ_SECONDS: 30
+          COVERAGE_MIN: 80
+        run: |
+          chmod +x scripts/ci.sh
+          ./scripts/ci.sh all

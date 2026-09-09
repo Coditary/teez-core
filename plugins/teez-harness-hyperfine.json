@@ -1,0 +1,7 @@
+{
+  "kind": "harness",
+  "name": "hyperfine",
+  "plugin": "teez-harness-hyperfine.lua",
+  "requires": ["hyperfine"],
+  "priority": 25
+}
