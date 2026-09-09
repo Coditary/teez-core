@@ -34,6 +34,19 @@ require_cmd() {
     fi
 }
 
+luac_cmd() {
+    if command -v luac >/dev/null 2>&1; then
+        echo luac
+        return 0
+    fi
+    if command -v luac5.4 >/dev/null 2>&1; then
+        echo luac5.4
+        return 0
+    fi
+    echo "Required command not found: luac (install lua5.4)" >&2
+    return 1
+}
+
 cmd_format() {
     require_cmd clang-format
     mapfile -t files < <(source_paths)
@@ -73,9 +86,10 @@ cmd_security() {
         "${files[@]}"
 
     if mapfile -t lua_files < <(plugin_lua_paths) && [[ "${#lua_files[@]}" -gt 0 ]]; then
-        require_cmd luac
+        local luac
+        luac="$(luac_cmd)"
         for lua_file in "${lua_files[@]}"; do
-            luac -p "${lua_file}"
+            "${luac}" -p "${lua_file}"
         done
     fi
 }

@@ -30,7 +30,7 @@ jobs:
             cppcheck \
             gcovr \
             liblua5.4-dev \
-            luac \
+            lua5.4 \
             ninja-build \
             pkg-config \
             zlib1g-dev
