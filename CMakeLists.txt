@@ -116,7 +116,6 @@ if(TEEZ_CORE_IS_TOPLEVEL)
         tests/test_teez_config.cpp
         tests/test_filter.cpp
         tests/test_filter_extended.cpp
-        tests/test_runner_integration.cpp
         tests/test_test_report.cpp
         tests/test_test_report_extended.cpp
         tests/test_test_report_msgpack_extended.cpp
@@ -125,8 +124,6 @@ if(TEEZ_CORE_IS_TOPLEVEL)
         tests/test_test_reporter.cpp
         tests/test_harness_discovery.cpp
     )
-
-    list(APPEND TEEZ_CORE_TEST_SOURCES tests/test_worker_integration.cpp)
 
     add_executable(teez_core_tests ${TEEZ_CORE_TEST_SOURCES})
 
@@ -138,6 +135,13 @@ if(TEEZ_CORE_IS_TOPLEVEL)
 
     include(cmake/TeezEmbedWorker.cmake)
     teez_embed_worker(teez_core_tests)
+
+    if(TEEZ_HAS_EMBEDDED_WORKER)
+        target_sources(teez_core_tests PRIVATE
+            tests/test_worker_integration.cpp
+            tests/test_runner_integration.cpp
+        )
+    endif()
 
     catch_discover_tests(teez_core_tests)
     teez_apply_gcov_prebuild_cleanup()

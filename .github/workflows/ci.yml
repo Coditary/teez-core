@@ -28,16 +28,6 @@ jobs:
           repository: ${{ github.repository_owner }}/Shared-Cpp
           path: teez-core/Shared-Cpp
 
-      - uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository_owner }}/teez-worker
-          path: teez-worker
-
-      - uses: actions/checkout@v4
-        with:
-          repository: ${{ github.repository_owner }}/Shared-Cpp
-          path: teez-worker/Shared-Cpp
-
       - name: Install dependencies
         run: |
           sudo rm -f /etc/apt/sources.list.d/google-chrome*.list

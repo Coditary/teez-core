@@ -23,10 +23,8 @@ const std::filesystem::path kWorkerFixture =
 
 }  // namespace
 
+#ifdef TEEZ_EMBEDDED_WORKER
 TEST_CASE("list_context returns worker test ids", "[runner]") {
-    if (!teez::core::test_support::embedded_worker_available()) {
-        SKIP("embedded worker not available (teez-worker sibling missing at configure time)");
-    }
     if (!std::filesystem::exists(kWorkerFixture / "smoke.teez.lua")) {
         SKIP("worker demo fixture missing");
     }
@@ -48,6 +46,7 @@ TEST_CASE("list_context returns worker test ids", "[runner]") {
     });
     REQUIRE(has_smoke_test);
 }
+#endif
 
 TEST_CASE("list_context returns pytest test ids", "[runner]") {
     if (!std::filesystem::exists(kPytestFixture / "pytest.ini")) {

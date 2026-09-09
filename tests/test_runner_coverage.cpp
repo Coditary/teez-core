@@ -91,11 +91,9 @@ TEST_CASE("run_coverage_context throws when plugin lacks coverage support", "[ru
     REQUIRE_THROWS_AS(teez::core::run_coverage_context(kPluginsDir, context), std::runtime_error);
 }
 
+#ifdef TEEZ_EMBEDDED_WORKER
 TEST_CASE("list_context returns worker demo tests when embedded worker is available",
           "[runner][list]") {
-    if (!teez::core::test_support::embedded_worker_available()) {
-        SKIP("embedded worker not available");
-    }
     if (!std::filesystem::exists(kWorkerFixture / "smoke.teez.lua")) {
         SKIP("worker demo fixture missing");
     }
@@ -111,6 +109,7 @@ TEST_CASE("list_context returns worker demo tests when embedded worker is availa
     REQUIRE_FALSE(tests.empty());
     REQUIRE(std::find(tests.begin(), tests.end(), std::string{}) == tests.end());
 }
+#endif
 
 TEST_CASE("parse_plugin_event_json accepts compact json payloads", "[runner]") {
     const auto event = teez::core::parse_plugin_event_json(R"({"event":"pass","id":"alpha"})");
