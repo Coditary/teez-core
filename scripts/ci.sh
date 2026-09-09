@@ -67,7 +67,7 @@ cmd_lint() {
     mapfile -t files < <(lint_paths)
     local failed=0
     for file in "${files[@]}"; do
-        if ! clang-tidy -p "${BUILD_DIR}" "${file}"; then
+        if ! clang-tidy -p "${BUILD_DIR}" --extra-arg-before="-I${ROOT}/include" "${file}"; then
             failed=1
         fi
     done

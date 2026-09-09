@@ -11,8 +11,13 @@ concurrency:
 
 jobs:
   ci:
+    name: ${{ matrix.check }}
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        check: [format, security, lint, test, coverage, fuzz]
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,7 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Runner image ships a Chrome apt source that often flakes with hash mismatches.
           sudo rm -f /etc/apt/sources.list.d/google-chrome*.list
           for attempt in 1 2 3; do
             sudo apt-get update && break
@@ -47,15 +51,15 @@ jobs:
             pkg-config \
             zlib1g-dev
 
-      - name: Run CI
+      - name: Run ${{ matrix.check }}
         working-directory: teez-core
         env:
-          BUILD_DIR: /tmp/teez-core-ci-build
+          BUILD_DIR: /tmp/teez-core-ci-${{ matrix.check }}-build
           FUZZ_BUILD_DIR: /tmp/teez-core-ci-fuzz-build
-          TMPDIR: /tmp/teez-core-ci-tmp
+          TMPDIR: /tmp/teez-core-ci-${{ matrix.check }}-tmp
           CCACHE_DISABLE: 1
           FUZZ_SECONDS: 30
           COVERAGE_MIN: 80
         run: |
           chmod +x scripts/ci.sh
-          ./scripts/ci.sh all
+          ./scripts/ci.sh ${{ matrix.check }}
