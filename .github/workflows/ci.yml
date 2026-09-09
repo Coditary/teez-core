@@ -38,7 +38,9 @@ jobs:
             clang-tidy \
             cmake \
             cppcheck \
+            curl \
             gcovr \
+            libcurl4-openssl-dev \
             liblua5.4-dev \
             lua5.4 \
             ninja-build \
