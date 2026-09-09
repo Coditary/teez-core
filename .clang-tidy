@@ -14,7 +14,8 @@ Checks: >
   cppcoreguidelines-special-member-functions,
   modernize-use-nullptr,
   modernize-use-override,
-  performance-*
+  performance-*,
+  -performance-enum-size
 WarningsAsErrors: ''
-HeaderFilterRegex: '.*'
+HeaderFilterRegex: '(src|include/teez)/.*'
 FormatStyle: file

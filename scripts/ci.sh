@@ -58,7 +58,7 @@ cmd_format() {
 }
 
 lint_paths() {
-    source_paths | grep -v '/fuzz/' || true
+    find "${ROOT}/src" -type f -name '*.cpp' 2>/dev/null | grep -v '/fuzz/' | sort
 }
 
 cmd_lint() {

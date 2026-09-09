@@ -152,8 +152,8 @@ TEST_CASE("glob_match returns empty list for directory without teez.lua files", 
 }
 
 TEST_CASE("find_all_runner_matches only returns pytest for pytest demo fixture", "[discovery]") {
-    const auto fixture = std::filesystem::path(__FILE__).parent_path().parent_path().parent_path() /
-                         "fixtures" / "pytest-demo";
+    const auto fixture =
+        std::filesystem::path(__FILE__).parent_path() / "fixtures" / "pytest-demo";
     if (!std::filesystem::exists(fixture / "pytest.ini")) {
         SKIP("pytest demo fixture missing");
     }

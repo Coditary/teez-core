@@ -135,7 +135,7 @@ TEST_CASE("TeezConfig resolve discovers config in search_dir", "[teez_config]") 
 }
 
 TEST_CASE("TeezConfig resolve loads workspace dev config when present", "[teez_config]") {
-    const auto workspace = std::filesystem::path(__FILE__).parent_path().parent_path().parent_path();
+    const auto workspace = std::filesystem::path(__FILE__).parent_path().parent_path();
     const auto config_path = workspace / "teez.config.lua";
     if (!std::filesystem::exists(config_path)) {
         SKIP("workspace teez.config.lua missing");
