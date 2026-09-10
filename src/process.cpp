@@ -43,6 +43,18 @@ void trim_trailing_newline(std::string& line) {
     }
 }
 
+bool read_file_line(FILE* stream, std::string& line) {
+    line.clear();
+    char buffer[4096];
+    while (fgets(buffer, sizeof(buffer), stream) != nullptr) {
+        line.append(buffer);
+        if (line.find('\n') != std::string::npos) {
+            return true;
+        }
+    }
+    return !line.empty();
+}
+
 void build_argv(const CommandSpec& spec, std::vector<std::string>& argv_storage,
                 std::vector<char*>& argv) {
     argv_storage.push_back(spec.command);
@@ -493,26 +505,22 @@ int run_command_streaming(const CommandSpec& spec,
         throw std::runtime_error("failed to open stdout pipe for reading"); // GCOVR_EXCL_LINE
     }
 
-    char* line_buffer = nullptr;
-    std::size_t line_capacity = 0;
     while (!interruption_requested()) {
         errno = 0;
-        const ssize_t read_chars = getline(&line_buffer, &line_capacity, stream);
-        if (read_chars < 0) {
+        std::string line;
+        if (!read_file_line(stream, line)) {
             if (errno == EINTR && interruption_requested()) {
                 break;
             }
             break;
         }
 
-        std::string line(line_buffer, static_cast<std::size_t>(read_chars));
         trim_trailing_newline(line);
         if (!line.empty()) {
             on_line(line);
         }
     }
 
-    free(line_buffer);
     fclose(stream);
 
     if (interruption_requested()) {
@@ -825,23 +833,18 @@ BackgroundProcessHandlePtr spawn_background_process(const CommandSpec& spec, boo
                 return;
             }
 
-            char* line_buffer = nullptr;
-            std::size_t line_capacity = 0;
             while (handle->running_) {
-                errno = 0;
-                const ssize_t read_chars = getline(&line_buffer, &line_capacity, stream);
-                if (read_chars < 0) {
+                std::string line;
+                if (!read_file_line(stream, line)) {
                     break;
                 }
 
-                std::string line(line_buffer, static_cast<std::size_t>(read_chars));
                 trim_trailing_newline(line);
                 if (!line.empty()) {
                     handle->lines_.push_back(line);
                 }
             }
 
-            free(line_buffer);
             fclose(stream);
         });
     }
