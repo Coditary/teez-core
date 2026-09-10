@@ -36,6 +36,7 @@ add_library(teez_core
     src/coverage_reporter.cpp
     src/discovery.cpp
     src/exit_code.cpp
+    src/install_paths.cpp
     src/lua_helpers.cpp
     src/lua_json.cpp
     src/plugin.cpp
@@ -123,6 +124,7 @@ if(TEEZ_CORE_IS_TOPLEVEL)
         tests/test_codec_extended.cpp
         tests/test_test_reporter.cpp
         tests/test_harness_discovery.cpp
+        tests/test_install_paths.cpp
     )
 
     add_executable(teez_core_tests ${TEEZ_CORE_TEST_SOURCES})
