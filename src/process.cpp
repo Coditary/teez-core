@@ -11,7 +11,11 @@
 #include <mutex>
 #include <optional>
 #include <poll.h>
+#if defined(__APPLE__)
+#include <util.h>
+#else
 #include <pty.h>
+#endif
 #include <stdexcept>
 #include <string>
 #include <thread>
