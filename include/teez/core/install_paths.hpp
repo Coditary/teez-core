@@ -10,4 +10,7 @@ std::filesystem::path current_executable_path();
 /// Bundled runner/harness plugins: install dir, env override, or compile-time dev path.
 std::filesystem::path resolve_bundled_plugins_dir();
 
+/// User-installed runner plugins (e.g. via rqp-plugin-teez), or empty when unavailable.
+std::filesystem::path resolve_user_plugins_dir();
+
 } // namespace teez::core

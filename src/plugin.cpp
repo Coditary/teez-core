@@ -130,6 +130,20 @@ std::vector<std::string> Plugin::list_tests(const RunContext& context) {
     return tests;
 }
 
+bool Plugin::prefetch_starts() const {
+    sol::protected_function prefetch_fn = lua_["prefetch_starts"];
+    if (!prefetch_fn.valid()) {
+        return true;
+    }
+
+    const auto result = prefetch_fn();
+    if (!result.valid() || result.get_type() != sol::type::boolean) {
+        return true;
+    }
+
+    return result.get<bool>();
+}
+
 CommandSpec Plugin::build_command(const RunContext& context) {
     sol::protected_function build_command_fn = lua_["build_command"];
     if (!build_command_fn.valid()) {

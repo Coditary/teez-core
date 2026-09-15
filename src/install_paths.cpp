@@ -1,6 +1,8 @@
 #include "teez/core/install_paths.hpp"
 
 #include <cstdlib>
+#include <pwd.h>
+#include <unistd.h>
 
 #if defined(__APPLE__)
 #include <mach-o/dyld.h>
@@ -33,6 +35,20 @@ bool plugins_dir_usable(const std::filesystem::path& path) {
         }
     }
     return false;
+}
+
+std::filesystem::path home_data_dir() {
+    if (const char* env = std::getenv("XDG_DATA_HOME"); env != nullptr && *env != '\0') {
+        return std::filesystem::path(env);
+    }
+    if (const char* home = std::getenv("HOME"); home != nullptr && *home != '\0') {
+        return std::filesystem::path(home) / ".local" / "share";
+    }
+    const passwd* pw = getpwuid(getuid());
+    if (pw != nullptr && pw->pw_dir != nullptr && *pw->pw_dir != '\0') {
+        return std::filesystem::path(pw->pw_dir) / ".local" / "share";
+    }
+    return {};
 }
 
 std::filesystem::path install_relative_plugins_dir(const std::filesystem::path& executable) {
@@ -92,6 +108,15 @@ std::filesystem::path resolve_bundled_plugins_dir() {
 #else
     return {};
 #endif
+}
+
+std::filesystem::path resolve_user_plugins_dir() {
+    const auto data = home_data_dir();
+    if (data.empty()) {
+        return {};
+    }
+    const auto plugins = canonical_if_exists(data / "teez" / "plugins");
+    return plugins_dir_usable(plugins) ? plugins : std::filesystem::path{};
 }
 
 } // namespace teez::core

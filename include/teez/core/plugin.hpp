@@ -30,6 +30,7 @@ class Plugin {
     explicit Plugin(std::filesystem::path plugin_path);
 
     std::vector<std::string> list_tests(const RunContext& context);
+    bool prefetch_starts() const;
     CommandSpec build_command(const RunContext& context);
     std::optional<CommandSpec> build_list_command(const RunContext& context);
     std::optional<CoverageProgramSpec> build_coverage_run(const RunContext& context);

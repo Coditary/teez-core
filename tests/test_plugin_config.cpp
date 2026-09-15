@@ -1,5 +1,7 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <algorithm>
+#include <cstdlib>
 #include <fstream>
 
 #include "teez/core/plugin_config.hpp"
@@ -108,6 +110,36 @@ return {
     REQUIRE(discovery.plugins.front().name == "worker");
     REQUIRE(discovery.harnesses.size() == 1);
     REQUIRE(discovery.harnesses.front().name == "process");
+}
+
+TEST_CASE("resolve_project_plugin_dirs includes user plugins from XDG_DATA_HOME", "[plugin_config]") {
+    const auto root = std::filesystem::temp_directory_path() / "teez_user_plugins_config";
+    std::filesystem::remove_all(root);
+    write_config(root, "return { profile = \"local\" }\n");
+
+    const auto data_home = root / "data";
+    const auto user_plugins = data_home / "teez" / "plugins";
+    std::filesystem::create_directories(user_plugins);
+    std::ofstream(user_plugins / "custom.json") << R"({"name":"custom","plugin":"custom.lua"})";
+
+#ifdef _WIN32
+    _putenv_s("XDG_DATA_HOME", data_home.string().c_str());
+#else
+    setenv("XDG_DATA_HOME", data_home.string().c_str(), 1);
+#endif
+
+    const auto config = teez::core::TeezConfig::resolve(
+        {.search_dir = root, .target_path = root, .config_file = std::nullopt});
+    const auto dirs = teez::core::resolve_project_plugin_dirs(config);
+
+    REQUIRE(std::find(dirs.begin(), dirs.end(),
+                      std::filesystem::absolute(user_plugins).lexically_normal()) != dirs.end());
+
+#ifdef _WIN32
+    _putenv_s("XDG_DATA_HOME", "");
+#else
+    unsetenv("XDG_DATA_HOME");
+#endif
 }
 
 TEST_CASE("resolve_project_plugin_dirs includes legacy .teez/plugins when present", "[plugin_config]") {

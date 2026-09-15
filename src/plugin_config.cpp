@@ -4,6 +4,8 @@
 
 #include <nlohmann/json.hpp>
 
+#include "teez/core/install_paths.hpp"
+
 namespace teez::core {
 
 namespace {
@@ -66,6 +68,8 @@ std::vector<std::filesystem::path> resolve_project_plugin_dirs(const TeezConfig&
     if (std::filesystem::exists(legacy_plugins)) {
         append_unique_dir(dirs, legacy_plugins);
     }
+
+    append_unique_dir(dirs, resolve_user_plugins_dir());
 
     return dirs;
 }

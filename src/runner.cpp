@@ -290,8 +290,10 @@ int run_with_plugin(const std::filesystem::path& plugin_path, const RunContext& 
                     const TestEventCallback& on_event) {
     Plugin plugin(plugin_path);
 
-    for (const auto& test_id : plugin.list_tests(context)) {
-        emit_event(on_event, {{"event", "start"}, {"id", test_id}});
+    if (plugin.prefetch_starts()) {
+        for (const auto& test_id : plugin.list_tests(context)) {
+            emit_event(on_event, {{"event", "start"}, {"id", test_id}});
+        }
     }
 
     const CommandSpec spec = plugin.build_command(context);
